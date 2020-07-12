@@ -14,7 +14,12 @@ type TParams = {
     request: { 
         url: string; 
     }
-    stats: unknown
+    stats: {
+        srcTxBytes: number
+        srcRxBytes: number
+        trgTxBytes: number
+        trgRxBytes: number
+    }
     error?: Error
 }
 
@@ -25,9 +30,10 @@ const server = new ProxyChain.Server({
     port: config.gateway.port,
     prepareRequestFunction: ( params: TParams ) => {
 
-        logger.log(`Request ${params.request.url}, connection: ${params.connectionId})`, "dev");
-
         let requestAuthentication = config.auth.enable;
+        const road = router.getRoute();
+
+        logger.log(`Request ${params.request.url} -> ${road.replace(/\:\/\/.*@/, "://")} (connection: ${params.connectionId})`, "dev");
 
         if (requestAuthentication === true) {
 
@@ -43,7 +49,7 @@ const server = new ProxyChain.Server({
 
         return {
             requestAuthentication: requestAuthentication,
-            upstreamProxyUrl: router.getRoute(),
+            upstreamProxyUrl: road,
             failMsg: "Bad username or password, please try again."
         };
     },
@@ -55,7 +61,7 @@ server.listen(() => {
 
 server.on("connectionClosed", ( params: TParams ) => {
     logger.log(`Connection ${params.connectionId} closed`, "dev");
-    logger.log(params.stats, "debug");
+    logger.log(`Send to client: ${params.stats.srcTxBytes}b, received from client: ${params.stats.srcRxBytes}b, sent to server: ${params.stats.trgTxBytes}b, received from server: ${params.stats.trgRxBytes}b`, "debug");
 });
 
 server.on("requestFailed", ( params: TParams ) => {
