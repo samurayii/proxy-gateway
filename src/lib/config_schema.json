@@ -1,0 +1,94 @@
+{
+    "type": "object",
+    "properties": {
+        "logger": {
+            "type": "object",
+            "default": {},
+            "properties": {
+                "enable": {
+                    "type": "boolean",
+                    "default": true,
+                    "enum": [true, false]
+                },
+                "mode": {
+                    "type": "string",
+                    "default": "prod",
+                    "enum": ["dev", "prod", "debug"]
+                }
+            },
+            "required": [
+                "enable",
+                "mode"
+            ]
+        },
+        "auth": {
+            "type": "object",
+            "default": {},
+            "properties": {
+                "enable": {
+                    "type": "boolean",
+                    "default": true,
+                    "enum": [true, false]
+                },
+                "users": {
+                    "type": "array",
+                    "default": [],
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "login": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 64
+                            },
+                            "password": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 64
+                            }
+                        },
+                        "required": [
+                            "login",
+                            "password"
+                        ]
+                    },
+                    "minItems": 0
+                }
+            },
+            "required": [
+                "enable",
+                "users"
+            ]
+        },
+        "gateway": {
+            "type": "object",
+            "properties": {
+                "port": {
+                    "type": "integer",
+                    "default": 8000,
+                    "minimum": 1,
+                    "maximum": 65536
+                },
+                "proxies": {
+                    "type": "array",
+                    "default": [],
+                    "items": {
+                        "type": "string",
+                        "pattern": "^(http|https)\\:\\/\\/(.*\\:.*@|).*\\:[0-9]{1,5}$",
+                        "maxLength": 256
+                    },
+                    "minItems": 0
+                }
+            },
+            "required": [
+                "port",
+                "proxies"
+            ]
+        }
+    },
+    "required": [
+        "logger",
+        "auth",
+        "gateway"
+    ]
+}

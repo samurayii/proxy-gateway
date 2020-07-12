@@ -1,0 +1,15 @@
+[logger]
+    mode = "prod"
+    enable = true
+
+[auth]
+    enable = true
+    [[auth.users]]
+        login = "login"
+        password = "password"
+
+[gateway]
+    port = 8000
+    proxies = [
+        "http://user:password@10.10.10.10:9400"
+    ]
