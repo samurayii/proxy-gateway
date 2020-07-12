@@ -4,9 +4,9 @@
 
 Эта утилита представляет из себя шлюз/балансировщик для запросов которые должны пройти через прокси сервер. Балансировка проходит по алгоритму **round-robin** используя список прокси серверов из файла конфигурации и текстового файла со списком проки серверов разделённых переводом строки.
 
-Установка: `node install proxy-gateway -g`
-Запуск: `proxy-gateway --config config.toml`
-Запуск с дополнительным списком прокси серверов: `proxy-gateway --config config.toml --proxies proxies.txt`
+Установка: `node install proxy-gateway -g`  
+Запуск: `proxy-gateway --config config.toml`  
+Запуск с дополнительным списком прокси серверов: `proxy-gateway --config config.toml --proxies proxies.txt`  
 Получить справку: `proxy-gate --help`
 
 пример config.toml:
