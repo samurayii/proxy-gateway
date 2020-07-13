@@ -7,4 +7,5 @@ index.ts
 .eslintignore
 .eslintrc
 tsconfig.json
+secret.config.json
 src
